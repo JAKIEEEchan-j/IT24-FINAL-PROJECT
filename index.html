@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventCast</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>EventCast</h1>
+
+  <section id="key-section">
+    <label for="api-key">Enter API key</label>
+    <input type="password" id="api-key" autocomplete="off">
+    <button id="save-key-btn" type="button">Save Key</button>
+  </section>
+
+  <section id="search-section">
+    <label for="search-input">Search a place in the Philippines</label>
+    <input type="text" id="search-input">
+    <button id="search-btn" type="button">Search</button>
+  </section>
+
+  <div id="map" aria-label="Map of the Philippines"></div>
+  <p id="message" role="alert"></p>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
