@@ -22,9 +22,20 @@
     <button id="search-btn" type="button">Search</button>
   </section>
 
-  <div id="map" aria-label="Map of the Philippines"></div>
+  <div id="map" role="region" aria-label="Map of the Philippines"></div>
+
+  <section id="weather-card" aria-live="polite">
+    <h2>Weather</h2>
+    <p id="weather-place">Click the map to see the weather.</p>
+    <img id="weather-icon" alt="" width="50" height="50">
+    <p>Temperature: <span id="weather-temp">--</span> °C</p>
+    <p>Humidity: <span id="weather-humidity">--</span> %</p>
+    <p>Wind: <span id="weather-wind">--</span> m/s</p>
+  </section>
+
   <p id="message" role="alert"></p>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

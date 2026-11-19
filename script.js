@@ -23,7 +23,7 @@ saveKeyBtn.addEventListener("click", function () {
   messageEl.textContent = "API key saved for this visit.";
 });
 
-// ----- SECTION 2: MAP (coming in Piece C) -----
+// ----- SECTION 2: MAP -----
 
 // Center of the Philippines (latitude, longitude) and starting zoom level
 const PH_CENTER = [12.88, 121.77];
@@ -46,8 +46,8 @@ let selectedMarker = null; // the pin on the map (none yet)
 let selectedLat = null;    // chosen latitude
 let selectedLon = null;    // chosen longitude
 
-// When the user clicks the map: save the spot and drop a pin
-map.on("click", function (event) {
+// When the user clicks the map: save the spot, drop a pin, get the weather
+map.on("click", async function (event) {
   selectedLat = event.latlng.lat;
   selectedLon = event.latlng.lng;
 
@@ -58,6 +58,14 @@ map.on("click", function (event) {
   selectedMarker = L.marker([selectedLat, selectedLon]).addTo(map);
   messageEl.textContent =
     "Selected spot: " + selectedLat.toFixed(4) + ", " + selectedLon.toFixed(4);
+
+  const weather = await getWeather(selectedLat, selectedLon);
+
+  if (weather === null) {
+    return; // getWeather already showed the error message
+  }
+
+  showWeather(weather);
 });
 
 // ----- SECTION 4: GET WEATHER -----
@@ -86,4 +94,16 @@ async function getWeather(lat, lon) {
     messageEl.textContent = "Cannot reach the weather service.";
     return null;
   }
+}
+
+// ----- SECTION 5: SHOW WEATHER CARD -----
+function showWeather(data) {
+  document.getElementById("weather-place").textContent = data.name || "Selected spot";
+  document.getElementById("weather-temp").textContent = Math.round(data.main.temp);
+  document.getElementById("weather-humidity").textContent = data.main.humidity;
+  document.getElementById("weather-wind").textContent = data.wind.speed;
+
+  const iconEl = document.getElementById("weather-icon");
+  iconEl.src = "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
+  iconEl.alt = data.weather[0].description;
 }
