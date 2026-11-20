@@ -107,3 +107,18 @@ function showWeather(data) {
   iconEl.src = "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
   iconEl.alt = data.weather[0].description;
 }
+// ----- RESET WEATHER CARD -----
+// Clears the card. Used for "Loading..." and for errors.
+// placeText = the message to show in the place line
+function resetWeatherCard(placeText) {
+  // Show the message in the place line (id="weather-place")
+  document.getElementById("weather-place").textContent = placeText;
+
+  // Put "--" back so old numbers never stay on the card
+  document.getElementById("weather-temp").textContent = "--";
+  document.getElementById("weather-humidity").textContent = "--";
+  document.getElementById("weather-wind").textContent = "--";
+
+  // Hide the icon picture until new weather arrives
+  document.getElementById("weather-icon").hidden = true;
+}
