@@ -29,15 +29,37 @@ saveKeyBtn.addEventListener("click", function () {
 const PH_CENTER = [12.88, 121.77];
 const START_ZOOM = 6;
 
-// Create the map inside <div id="map">
-const map = L.map("map").setView(PH_CENTER, START_ZOOM);
+// Box around the whole world: [south-west corner, north-east corner]
+const WORLD_BOUNDS = [
+  [-85, -180],
+  [85, 180]
+];
 
-// Satellite pictures from Esri (replaces the OpenStreetMap tiles)
+// Create the map inside <div id="map">
+const map = L.map("map", {
+  minZoom: 3,                  // cannot zoom out past one copy of the world
+  maxBounds: WORLD_BOUNDS,     // cannot drag the map past the world's edges
+  maxBoundsViscosity: 1.0      // makes the edge solid (no bouncing past it)
+}).setView(PH_CENTER, START_ZOOM);
+
+// Layer 1: satellite pictures from Esri
 L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   {
-    maxZoom: 17,
+    maxZoom: 19,
+    noWrap: true,              // do NOT repeat the world left and right
+    bounds: WORLD_BOUNDS,
     attribution: "Tiles &copy; Esri, Maxar, Earthstar Geographics"
+  }
+).addTo(map);
+
+// Layer 2: country names, city names and borders on top of the satellite
+L.tileLayer(
+  "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+  {
+    maxZoom: 17,
+    noWrap: true,
+    bounds: WORLD_BOUNDS
   }
 ).addTo(map);
 
